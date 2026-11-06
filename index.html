@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kinguila 2027</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f1f5f9;padding-bottom:70px}header{background:#000;color:#fff;padding:14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}header b{font-size:20px}header b span{color:#facc15}.btn{background:#facc15;border:none;padding:10px 14px;border-radius:10px;font-weight:bold}.wrap{padding:12px}input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:10px;font-size:15px}textarea{height:80px}.tip{background:#fef08a;padding:12px;border-radius:12px;font-size:13px}.cats{display:flex;gap:8px;overflow:auto;padding:10px 0}.cats button{white-space:nowrap;border:none;background:#fff;padding:8px 14px;border-radius:20px}.cats button.on{background:#000;color:#facc15}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{background:#fff;border-radius:14px;overflow:hidden;position:relative}.card img{width:100%;height:130px;object-fit:cover}.card .p{padding:8px}.price{color:#16a34a;font-weight:bold}.card button{width:48%;padding:8px;border:none;border-radius:8px;margin-top:6px}.wa{background:#25D366;color:#fff}.call{background:#000;color:#fff}.badge{position:absolute;top:6px;left:6px;background:#facc15;padding:4px 8px;border-radius:20px;font-size:11px;font-weight:bold}.fav{position:absolute;top:6px;right:6px;background:#fff;border:none;border-radius:50%;width:32px;height:32px}.nav{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;justify-content:space-around;padding:10px;color:#fff}.nav button{background:none;border:none;color:#fff;font-size:13px}.nav button.on{color:#facc15}.box{background:#fff;padding:14px;border-radius:14px;margin:10px 0}.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:flex-end;justify-content:center;z-index:20}.modal.open{display:flex}.sheet{background:#fff;width:100%;max-height:90%;overflow:auto;border-radius:18px 18px 0 0;padding:16px}.sheet img{width:100%;border-radius:12px;max-height:260px;object-fit:cover}.hidden{display:none}.green{background:#16a34a;color:#fff;border:none;padding:13px;width:100%;border-radius:10px;font-weight:bold}.black{background:#000;color:#fff;border:none;padding:13px;width:100%;border-radius:10px;font-weight:bold;margin-top:8px}
+</style></head><body>
+<header><b>Kinguila <span>2027</span></b><button class="btn" onclick="show('vender')">+ ANUNCIAR</button></header>
+<div id="inicio" class="wrap">
+<input id="busca" placeholder="Buscar Produto... Ex: iPhone" oninput="render()">
+<div class="tip">⚠️ <b>Dica Segurança:</b> Nunca pagues antes de ver o produto. Encontra-te em local público. Denuncia burla, wy.</div>
+<div class="cats" id="cats"></div>
+<div class="cats" id="provs"></div>
+<select id="ord" onchange="render()"><option value="rec">Recentes</option><option value="baixo">Preço + Baixo</option><option value="alto">Preço + Alto</option></select>
+<a href="#" onclick="openTermos();return false">Ver Termos e Segurança</a>
+<div class="grid" id="lista" style="margin-top:10px"></div>
+</div>
+<div id="explorar" class="wrap hidden"><h3>Explorar</h3><div class="grid" id="lista2"></div></div>
+<div id="vender" class="wrap hidden">
+<h2>VENDER - Publicar, wy</h2>
+<div id="venderForm">
+<input id="fTitulo" placeholder="Título - Ex: iPhone 14">
+<input id="fPreco" type="number" placeholder="Preço Kz - Ex: 22000">
+<select id="fCat"><option>Telefone</option><option>Carro</option><option>Casa</option><option>Outros</option></select>
+<select id="fProv"><option>Luanda</option><option>Cabinda</option><option>Huambo</option><option>Benguela</option><option>Huíla</option></select>
+<input id="fMun" placeholder="Município - Ex: Viana">
+<input id="fZap" placeholder="Teu WhatsApp - Ex: 925079792">
+<textarea id="fDesc" placeholder="Descrição"></textarea>
+<label>Escolhe Fotos (1 já chega, wy) - da Galeria</label>
+<input type="file" id="fFoto" accept="image/*" multiple>
+<label><input type="checkbox" id="fTermo"> Aceito o Termo <a href="#" onclick="openTermos();return false">Ver Termos</a></label>
+<button class="black" onclick="publicar()">PUBLICAR AGORA</button>
+<p id="msgPub" style="color:green;font-weight:bold"></p>
+</div>
+<div class="box" style="background:#fef9c3">
+<h3>⭐ DESTACAR ANÚNCIO - <span id="precoDest">500</span> Kz / <span id="diasDest">3</span> DIAS</h3>
+<p>Paga <span id="precoDest2">500</span> Kz no Multicaixa Express para: <b id="numExp">925 079 792</b></p>
+<p>Depois envia o comprovativo no WhatsApp, wy.</p>
+<button class="green" onclick="enviarComp()">📲 ENVIAR COMPROVATIVO NO WHATSAPP</button>
+<p style="font-size:12px">Aprovação no Painel do Dono. Não é automático.</p>
+</div>
+</div>
+<div id="perfil" class="wrap hidden">
+<h2>👤 Perfil</h2><div class="box"><b id="pNome">Sem conta</b><br><span id="pZap"></span><br><span id="pCont"></span></div>
+<input id="uNome" placeholder="Nome Completo"><input id="uZap" placeholder="Número WhatsApp +244"><select id="uProv"><option>Luanda</option><option>Cabinda</option><option>Huambo</option><option>Benguela</option><option>Huíla</option></select>
+<button class="black" onclick="criarConta()">ENTRAR / CRIAR CONTA</button>
+<button class="green" onclick="criarConta()">Continuar com Google</button>
+<h3>Meus Anúncios</h3><div id="meus"></div>
+<br><button onclick="abrirPainel()" style="background:none;border:none;color:#888">👑 PAINEL DO DONO</button><p style="font-size:11px;color:#999">Só o dono vê este botão. Precisa PIN.</p>
+</div>
+<div id="painel" class="wrap hidden">
+<h2>👑 Painel do Dono</h2>
+<button class="btn" onclick="abaPainel('aprov')">Aprovar Destaque</button>
+<button class="btn" onclick="abaPainel('den')">Denúncias</button>
+<button class="btn" onclick="abaPainel('todos')">Todos Anúncios</button>
+<button class="btn" onclick="abaPainel('def')">Definições</button>
+<div id="painelConteudo"></div>
+</div>
+<div class="nav"><button onclick="show('inicio')" class="on">🏠 Início</button><button onclick="show('explorar')">🔍 Explorar</button><button onclick="show('vender')">➕ Vender</button><button onclick="show('perfil')">👤 Perfil</button></div>
+<div class="modal" id="modal"><div class="sheet"><button onclick="fechar()" style="float:right">X</button><div id="det"></div></div></div>
+<div class="modal" id="modalTermos"><div class="sheet"><button onclick="document.getElementById('modalTermos').classList.remove('open')" style="float:right">X</button><h2>Termos e Segurança</h2><p>Kinguila 2027 é só vitrine. Não nos responsabilizamos por negócios entre vendedor e comprador. Nunca pagues antes de ver. Encontra-te em local público. Denuncia burla. Anúncios com burla são apagados e conta bloqueada.</p></div></div>
+<script>
+let cfg=JSON.parse(localStorage.getItem('k_cfg')||'{"preco":500,"dias":3,"gratis":2,"num":"925079792","numShow":"925 079 792"}');
+let ads=JSON.parse(localStorage.getItem('k_ads')||'null');
+if(!ads){ads=[
+{id:1,titulo:"iPhone 14 Pro 256GB",preco:450000,cat:"Telefone",prov:"Luanda",vend:"Kinguila",zap:"925079792",desc:"Muito bom, wy. Bateria 90%.",img:"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600",dest:true,den:0},
+{id:2,titulo:"Toyota Corolla 2018",preco:8500000,cat:"Carro",prov:"Luanda",vend:"Paulo",zap:"925079792",desc:"Carro limpo, wy.",img:"https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600",dest:false,den:0},
+{id:3,titulo:"Casa T3 em Talatona",preco:15000000,cat:"Casa",prov:"Luanda",vend:"Ana",zap:"925079792",desc:"Casa T3, wy.",img:"https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600",dest:false,den:0},
+{id:4,titulo:"Samsung S23 Ultra",preco:380000,cat:"Telefone",prov:"Benguela",vend:"Mário",zap:"925079792",desc:"Novo, wy.",img:"https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600",dest:false,den:0}
+];localStorage.setItem('k_ads',JSON.stringify(ads));}
+let favs=JSON.parse(localStorage.getItem('k_fav')||'[]');
+let user=JSON.parse(localStorage.getItem('k_user')||'null');
+let catSel='Todos',provSel='Todos';
+let cats=['Todos','Carro','Telefone','Casa','Outros'],provs=['Todos','Luanda','Cabinda','Huambo','Benguela'];
+document.getElementById('precoDest').innerText=cfg.preco;document.getElementById('precoDest2').innerText=cfg.preco;document.getElementById('diasDest').innerText=cfg.dias;document.getElementById('numExp').innerText=cfg.numShow;
+  function show(id){['inicio','explorar','vender','perfil','painel'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');if(id=='vender'&&!user){alert('Cria conta primeiro, wy. Vai em Perfil.');show('perfil');}if(id=='perfil')renderPerfil();render();}
+function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<button class="${c==catSel?'on':''}" onclick="catSel='${c}';render()">${c}</button>`).join('');document.getElementById('provs').innerHTML=provs.map(p=>`<button class="${p==provSel?'on':''}" onclick="provSel='${p}';render()">${p}</button>`).join('');}
+function card(a){let f=favs.includes(a.id)?'❤️':'🤍';return `<div class="card"><span class="badge" style="display:${a.dest?'block':'none'}">⭐ DESTAQUE</span><button class="fav" onclick="fav(${a.id})">${f}</button><img src="${a.img}" onclick="detalhe(${a.id})"><div class="p"><div class="price">${a.preco.toLocaleString()} Kz</div><b>${a.titulo}</b><br><small>${a.prov} • ${a.vend}</small><br><button class="wa" onclick="zap('${a.zap}','${a.titulo}')">WhatsApp</button><button class="call" onclick="location.href='tel:+244${a.zap}'">Ligar</button><br><small><a href="#" onclick="denunciar(${a.id});return false">Denunciar</a> • <a href="#" onclick="detalhe(${a.id});return false">Ver Detalhes</a></small></div></div>`}
+function render(){renderCats();let l=[...ads];let b=document.getElementById('busca').value.toLowerCase();if(b)l=l.filter(x=>x.titulo.toLowerCase().includes(b));if(catSel!='Todos')l=l.filter(x=>x.cat==catSel);if(provSel!='Todos')l=l.filter(x=>x.prov==provSel);let o=document.getElementById('ord').value;if(o=='baixo')l.sort((a,b)=>a.preco-b.preco);if(o=='alto')l.sort((a,b)=>b.preco-a.preco);l.sort((a,b)=>(b.dest?1:0)-(a.dest?1:0));document.getElementById('lista').innerHTML=l.map(card).join('')||'Nenhum anúncio, wy.';document.getElementById('lista2').innerHTML=document.getElementById('lista').innerHTML;}
+function fav(id){favs=favs.includes(id)?favs.filter(x=>x!=id):[...favs,id];localStorage.setItem('k_fav',JSON.stringify(favs));render();}
+function zap(num,titulo){window.open(`https://wa.me/244${num}?text=${encodeURIComponent('Olá, vi o teu '+titulo+' no Kinguila 2027, ainda está disponível?')}`)}
+function detalhe(id){let a=ads.find(x=>x.id==id);document.getElementById('det').innerHTML=`<img src="${a.img}"><h2>${a.titulo}</h2><div class="price">${a.preco.toLocaleString()} Kz</div><p>${a.desc}</p><p>${a.prov} • ${a.vend}</p><button class="green" onclick="zap('${a.zap}','${a.titulo}')">WhatsApp</button><button class="black" onclick="location.href='tel:+244${a.zap}'">Ligar</button><button class="black" onclick="denunciar(${id})">Denunciar</button><button class="black" onclick="navigator.share?navigator.share({title:'${a.titulo}',text:'Vê no Kinguila 2027'}):alert('Copia o link, wy')">Partilhar</button>`;document.getElementById('modal').classList.add('open');}
+function fechar(){document.getElementById('modal').classList.remove('open');}
+function openTermos(){document.getElementById('modalTermos').classList.add('open');}
+function denunciar(id){let a=ads.find(x=>x.id==id);a.den=(a.den||0)+1;localStorage.setItem('k_ads',JSON.stringify(ads));alert('Denunciado, wy. Obrigado.');render();}
+function criarConta(){let n=document.getElementById('uNome').value,z=document.getElementById('uZap').value;if(!n||!z){alert('Põe nome e WhatsApp, wy.');return;}user={nome:n,zap:z,prov:document.getElementById('uProv').value};localStorage.setItem('k_user',JSON.stringify(user));alert('Conta criada, wy!');renderPerfil();}
+function renderPerfil(){if(!user)return;document.getElementById('pNome').innerText=user.nome;document.getElementById('pZap').innerText=user.zap;let meus=ads.filter(a=>a.vend==user.nome);document.getElementById('pCont').innerText=`Meus: ${meus.length} | Favoritos: ${favs.length}`;document.getElementById('meus').innerHTML=meus.map(a=>`<div class="box"><b>${a.titulo}</b> - ${a.preco} Kz<br><button onclick="vendido(${a.id})">Marcar Vendido</button> <button onclick="apagar(${a.id})">Apagar</button> <button onclick="renovar(${a.id})">Renovar Destaque</button></div>`).join('')||'Sem anúncios, wy.';}
+function vendido(id){alert('Marcado como vendido, wy!');}
+function apagar(id){ads=ads.filter(a=>a.id!=id);localStorage.setItem('k_ads',JSON.stringify(ads));render();renderPerfil();}
+function renovar(id){alert('Para renovar, paga destaque, wy.');}
+function publicar(){if(!document.getElementById('fTermo').checked){alert('Aceita o Termo, wy.');return;}let hoje=new Date().toDateString();let count=JSON.parse(localStorage.getItem('k_count')||'{}');let key=user?user.zap+'_'+hoje:'anon';if((count[key]||0)>=cfg.gratis){alert('Já publicaste '+cfg.gratis+' grátis hoje, wy. Amanhã podes de novo.');return;}let file=document.getElementById('fFoto').files[0];let titulo=document.getElementById('fTitulo').value;let novo={id:Date.now(),titulo:titulo,preco:+document.getElementById('fPreco').value,cat:document.getElementById('fCat').value,prov:document.getElementById('fProv').value,vend:user?user.nome:'Visitante',zap:document.getElementById('fZap').value,desc:document.getElementById('fDesc').value,img:"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600",dest:false,den:0,pendDest:false};if(file){let r=new FileReader();r.onload=e=>{novo.img=e.target.result;salvar(novo,count,key)};r.readAsDataURL(file);}else salvar(novo,count,key);}
+function salvar(n,ct,k){ads.unshift(n);localStorage.setItem('k_ads',JSON.stringify(ads));ct[k]=(ct[k]||0)+1;localStorage.setItem('k_count',JSON.stringify(ct));document.getElementById('msgPub').innerText='Publicado, wy! Já aparece no Início.';render();show('inicio');}
+function enviarComp(){window.open(`https://wa.me/244${cfg.num}?text=${encodeURIComponent('Olá, paguei o Destaque do meu anúncio no Kinguila 2027. Aqui está o comprovativo.')}`)}
+function abrirPainel(){let pin=prompt('PIN do Dono, wy:');if(pin=='23113'){show('painel');abaPainel('aprov');}else alert('Código errado, wy.');}
+function abaPainel(aba){let c=document.getElementById('painelConteudo');if(aba=='aprov'){let pend=ads.filter(a=>a.pendDest);c.innerHTML=pend.map(a=>`<div class="box"><b>${a.titulo}</b> - ${a.vend}<br><button onclick="aprovar(${a.id})">✅ APROVAR</button> <button onclick="rejeitar(${a.id})">❌ REJEITAR</button></div>`).join('')||'Nenhum à espera, wy. Para testar, clica em Renovar Destaque no Perfil.';}if(aba=='den'){let d=ads.filter(a=>a.den>0);c.innerHTML=d.map(a=>`<div class="box"><b>${a.titulo}</b> - Denúncias: ${a.den} - Burla / Suspeito<br><button onclick="apagar(${a.id});abaPainel('den')">🗑️ APAGAR + BLOQUEAR</button> <button onclick="ignorar(${a.id})">❌ IGNORAR</button></div>`).join('')||'Sem denúncias, wy.';}if(aba=='todos'){c.innerHTML=ads.map(a=>`<div class="box"><b>${a.titulo}</b><br><button onclick="apagar(${a.id});abaPainel('todos')">Apagar</button> <button onclick="destManual(${a.id})">Destacar Manual</button></div>`).join('');}if(aba=='def'){c.innerHTML=`<div class="box">Preço Destaque<input id="dPreco" value="${cfg.preco}">Dias<input id="dDias" value="${cfg.dias}">Grátis por dia<input id="dGratis" value="${cfg.gratis}">Número Expresso<input id="dNum" value="${cfg.num}"><button class="green" onclick="guardarDef()">GUARDAR DEFINIÇÕES</button></div>`;}}
+function aprovar(id){let a=ads.find(x=>x.id==id);a.dest=true;a.pendDest=false;localStorage.setItem('k_ads',JSON.stringify(ads));alert('Aprovado, wy! Destaque por '+cfg.dias+' dias.');render();abaPainel('aprov');}
+function rejeitar(id){let a=ads.find(x=>x.id==id);a.pendDest=false;localStorage.setItem('k_ads',JSON.stringify(ads));abaPainel('aprov');}
+function ignorar(id){let a=ads.find(x=>x.id==id);a.den=0;localStorage.setItem('k_ads',JSON.stringify(ads));abaPainel('den');}
+function destManual(id){let a=ads.find(x=>x.id==id);a.dest=true;localStorage.setItem('k_ads',JSON.stringify(ads));alert('Destacado, wy!');render();}
+function guardarDef(){cfg={preco:+document.getElementById('dPreco').value,dias:+document.getElementById('dDias').value,gratis:+document.getElementById('dGratis').value,num:document.getElementById('dNum').value,numShow:document.getElementById('dNum').value};localStorage.setItem('k_cfg',JSON.stringify(cfg));alert('Guardado, wy!');}
+render();
+</script></body></html>
